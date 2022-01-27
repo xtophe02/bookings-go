@@ -1,5 +1,7 @@
 package models
 
+import "github.com/xtophe02/bookings-go/internal/forms"
+
 //HOLDS DATA SENT FROM HANDLERS TO TEMPLATES
 type TemplateData struct{
 	StringMap map[string]string
@@ -10,4 +12,6 @@ type TemplateData struct{
 	Flash string
 	Warning string
 	Error string
+	Form *forms.Form
+	
 }

@@ -1,4 +1,159 @@
 {{template "base" .}}
 {{define "content"}}
-<h1>this is the home page</h1>
+<div class="container py-4">
+  <div class="mb-4 bg-danger rounded-3 overflow-hidden">
+    <div class="container-fluid p-0">
+      <div
+        id="carouselExampleFade"
+        class="carousel carousel-dark slide carousel-fade"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-indicators">
+          <button
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide-to="0"
+            class="active"
+            aria-current="true"
+            aria-label="Slide 1"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide-to="1"
+            aria-label="Slide 2"
+          ></button>
+          <button
+            type="button"
+            data-bs-target="#carouselExampleFade"
+            data-bs-slide-to="2"
+            aria-label="Slide 3"
+          ></button>
+        </div>
+
+        <div class="carousel-inner">
+          <div class="carousel-item">
+            <img
+              src="/static/images/woman-bed.jpg"
+              alt="woman with laptop"
+              class="d-block w-100"
+              style="
+                object-fit: cover;
+                object-position: center;
+                overflow: hidden;
+                height: 50vh;
+              "
+            />
+            <div class="carousel-caption d-none d-md-block">
+              <h3 style="-webkit-text-stroke: 1px green">
+                Lorem ipsum dolor sit amet.
+              </h3>
+              <p class="fst-italic text-success">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Perferendis expedita, et cum maxime voluptas facilis.
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <img
+              src="/static/images/tray.jpg"
+              class="d-block w-100"
+              alt="tray with coffe"
+              style="
+                object-fit: cover;
+                object-position: center;
+                overflow: hidden;
+                height: 50vh;
+              "
+            />
+            <div class="carousel-caption d-none d-md-block">
+              <h3 style="-webkit-text-stroke: 1px white">
+                Lorem ipsum dolor sit amet.
+              </h3>
+              <p class="fst-italic text-white">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Perferendis expedita, et cum maxime voluptas facilis.
+              </p>
+            </div>
+          </div>
+          <div class="carousel-item active">
+            <img
+              src="/static/images/outside.jpg"
+              class="d-block w-100"
+              alt="hotel"
+              style="
+                object-fit: cover;
+                object-position: center;
+                overflow: hidden;
+                height: 50vh;
+              "
+            />
+            <div class="carousel-caption d-none d-md-block">
+              <h3 style="-webkit-text-stroke: 1px red">
+                Lorem ipsum dolor sit amet.
+              </h3>
+              <p class="fst-italic text-danger">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Perferendis expedita, et cum maxime voluptas facilis.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row align-items-md-stretch">
+    <div class="col-md-6">
+      <div
+        class="h-100 p-5 rounded-3 fw-bold text-white"
+        style="
+          background-image: url(/static/images/major-suite.jpg);
+          background-position: center center;
+          background-size: cover;
+        "
+      >
+        <h2>Major Suite</h2>
+        <p>
+          Swap the background-color utility and add a `.text-*` color utility to
+          mix up the jumbotron look. Then, mix and match with additional
+          component themes and more.
+        </p>
+        <a
+          href="/rooms/major-suite"
+          class="btn btn-outline-light"
+          type="button"
+        >
+          View Suite
+        </a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div
+        class="h-100 p-5 border rounded-3 text-white fw-bold"
+        style="
+          background-image: url(/static/images/general-quarters.jpg);
+          background-position: center center;
+          background-size: cover;
+        "
+      >
+        <h2>General Quarters</h2>
+        <p>
+          Or, keep it light and add a border for some added definition to the
+          boundaries of your content. Be sure to look under the hood at the
+          source HTML here as we've adjusted the alignment and sizing of both
+          column's content for equal-height.
+        </p>
+        <a
+          href="/rooms/general-quarters"
+          class="btn btn-outline-light"
+          type="button"
+        >
+          View Quarters
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 {{ end }}
