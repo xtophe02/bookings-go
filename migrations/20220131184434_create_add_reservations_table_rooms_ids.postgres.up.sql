@@ -1,0 +1,2 @@
+ALTER TABLE reservations
+ADD COLUMN rooms_id INTEGER NOT NULL REFERENCES restrictions(id) ON DELETE CASCADE;

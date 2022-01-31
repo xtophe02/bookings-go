@@ -1,0 +1,1 @@
+CREATE INDEX ON rooms_restrictions (reservations_id);

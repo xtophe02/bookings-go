@@ -1,0 +1,18 @@
+mode: set
+github.com/xtophe02/bookings-go/internal/forms/forms.go:17.33,22.2 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:25.29,27.2 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:29.43,30.31 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:30.31,33.33 2 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:33.33,35.4 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:40.39,43.13 2 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:47.2,47.13 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:43.13,46.3 2 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:49.57,52.21 2 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:56.2,56.13 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:52.21,55.3 2 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:58.38,59.40 1 1
+github.com/xtophe02/bookings-go/internal/forms/forms.go:59.40,61.3 1 1
+github.com/xtophe02/bookings-go/internal/forms/errors.go:6.43,8.2 1 1
+github.com/xtophe02/bookings-go/internal/forms/errors.go:10.41,12.18 2 1
+github.com/xtophe02/bookings-go/internal/forms/errors.go:15.2,15.14 1 1
+github.com/xtophe02/bookings-go/internal/forms/errors.go:12.18,14.3 1 1

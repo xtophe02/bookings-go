@@ -1,0 +1,1 @@
+go build -o bookings-go cmd/web/*go && ./bookings-go

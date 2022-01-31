@@ -1,0 +1,19 @@
+mode: set
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:21.47,23.2 1 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:26.32,28.2 1 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:30.66,34.2 3 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:35.67,43.2 5 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:44.69,52.2 5 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:53.74,57.2 1 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:60.79,62.2 0 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:63.73,74.2 4 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:75.77,77.15 2 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:81.2,94.18 6 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:105.2,106.66 2 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:77.15,80.3 2 0
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:94.18,103.3 4 0
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:108.80,110.8 2 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:116.2,122.4 4 0
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:110.8,115.3 4 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:124.77,132.2 5 1
+github.com/xtophe02/bookings-go/internal/handlers/handlers.go:133.72,141.2 5 1

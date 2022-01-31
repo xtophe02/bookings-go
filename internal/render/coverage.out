@@ -1,0 +1,26 @@
+mode: set
+github.com/xtophe02/bookings-go/internal/render/render.go:24.40,26.2 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:28.84,34.2 5 1
+github.com/xtophe02/bookings-go/internal/render/render.go:36.106,41.22 2 1
+github.com/xtophe02/bookings-go/internal/render/render.go:51.2,52.9 2 1
+github.com/xtophe02/bookings-go/internal/render/render.go:58.2,63.16 4 0
+github.com/xtophe02/bookings-go/internal/render/render.go:67.2,67.12 1 0
+github.com/xtophe02/bookings-go/internal/render/render.go:41.22,45.3 1 0
+github.com/xtophe02/bookings-go/internal/render/render.go:45.8,48.3 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:52.9,55.3 2 1
+github.com/xtophe02/bookings-go/internal/render/render.go:63.16,66.3 2 0
+github.com/xtophe02/bookings-go/internal/render/render.go:72.53,75.16 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:78.2,78.16 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:83.2,83.12 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:75.16,77.3 1 0
+github.com/xtophe02/bookings-go/internal/render/render.go:78.16,82.3 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:87.67,98.29 3 1
+github.com/xtophe02/bookings-go/internal/render/render.go:125.2,125.21 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:98.29,106.17 3 1
+github.com/xtophe02/bookings-go/internal/render/render.go:111.3,112.17 2 1
+github.com/xtophe02/bookings-go/internal/render/render.go:115.3,115.23 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:122.3,122.21 1 1
+github.com/xtophe02/bookings-go/internal/render/render.go:106.17,108.4 1 0
+github.com/xtophe02/bookings-go/internal/render/render.go:112.17,114.4 1 0
+github.com/xtophe02/bookings-go/internal/render/render.go:115.23,118.18 2 1
+github.com/xtophe02/bookings-go/internal/render/render.go:118.18,120.5 1 0

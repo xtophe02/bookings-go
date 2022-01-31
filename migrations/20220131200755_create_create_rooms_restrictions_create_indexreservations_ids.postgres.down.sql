@@ -1,0 +1,1 @@
+DROP INDEX rooms_restrictions_reservations_id_idx;

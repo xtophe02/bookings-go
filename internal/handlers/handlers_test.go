@@ -26,21 +26,22 @@ var theTests = []struct {
 	{"search-availability", "/availability", "GET", []postData{}, http.StatusOK},
 	{"contact", "/contact", "GET", []postData{}, http.StatusOK},
 	{"make-res", "/reservation", "GET", []postData{}, http.StatusOK},
-	{"post-avalability", "/availability", "POST", 
-	[]postData{
-		{key: "start", value: "2020-01-01"},
-		{key: "end", value: "2020-01-02"},
-		}, 
-	
-	http.StatusOK},
-	{"post-reservation", "/reservation", "POST", 
-	[]postData{
-		{key: "first_name", value: "John"},
-		{key: "last_name", value: "Doe"},
-		{key: "email", value: "john.doe@gmail.com"},
-		}, 
-	
-	http.StatusOK},
+	{"reservation-summary", "/reservation-summary", "GET", []postData{}, http.StatusOK},
+	{"post-avalability", "/availability", "POST",
+		[]postData{
+			{key: "start", value: "2020-01-01"},
+			{key: "end", value: "2020-01-02"},
+		},
+
+		http.StatusOK},
+	{"post-reservation", "/reservation", "POST",
+		[]postData{
+			{key: "first_name", value: "John"},
+			{key: "last_name", value: "Doe"},
+			{key: "email", value: "john.doe@gmail.com"},
+		},
+
+		http.StatusOK},
 }
 
 func TestHandlers(t *testing.T) {
@@ -63,10 +64,10 @@ func TestHandlers(t *testing.T) {
 
 		} else {
 			values := url.Values{}
-			for _, x := range e.params{
+			for _, x := range e.params {
 				values.Add(x.key, x.value)
 			}
-			res, err := ts.Client().PostForm(ts.URL + e.url, values)
+			res, err := ts.Client().PostForm(ts.URL+e.url, values)
 			if err != nil {
 				t.Log(err)
 				t.Fatal(err)
