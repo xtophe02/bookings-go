@@ -8,6 +8,7 @@ built in GO
 - [Chi Router](github.com/go-chi/chi)
 - [NoSurf](github.com/justinas/nosurf)
 - [GoValidator](https://github.com/asaskevich/govalidator)
+- [PGX Postgres connect](https://github.com/jackc/pgx/v4)
 
 **JS dependencies**
 
