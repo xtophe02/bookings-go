@@ -1,0 +1,6 @@
+ALTER TABLE reservations
+ADD COLUMN user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE, 
+DROP COLUMN first_name,
+DROP COLUMN last_name,
+DROP COLUMN email,
+DROP COLUMN phone;

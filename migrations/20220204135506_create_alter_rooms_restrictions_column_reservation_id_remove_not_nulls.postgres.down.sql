@@ -1,0 +1,1 @@
+ALTER TABLE room_restrictions ALTER COLUMN reservation_id SET NOT NULL;

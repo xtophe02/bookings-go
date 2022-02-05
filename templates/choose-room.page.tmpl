@@ -1,0 +1,17 @@
+{{template "base" .}}
+{{define "content"}}
+<section class="container ">
+  <h1 class="py-4">Choose a Room</h1>
+  <div class="list-group">
+    
+  {{$rooms := index .Data "rooms"}}
+  {{range $rooms}}
+  <a href="/choose-room/{{.ID}}" class="list-group-item list-group-item-action">{{.RoomName}}</a>  
+  {{end}}
+  </div>
+
+
+
+</section>
+
+{{ end }}

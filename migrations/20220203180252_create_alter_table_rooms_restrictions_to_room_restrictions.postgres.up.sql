@@ -1,0 +1,1 @@
+ALTER TABLE rooms_restrictions RENAME TO room_restrictions;

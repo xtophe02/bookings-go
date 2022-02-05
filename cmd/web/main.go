@@ -10,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/xtophe02/bookings-go/internal/config"
+	"github.com/xtophe02/bookings-go/internal/driver"
 	"github.com/xtophe02/bookings-go/internal/handlers"
 	"github.com/xtophe02/bookings-go/internal/helpers"
 	"github.com/xtophe02/bookings-go/internal/models"
@@ -22,10 +23,11 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 	fmt.Println("Starting app on port", portNumber)
 	// http.ListenAndServe(portNumber,nil)
 	srv := &http.Server{
@@ -38,9 +40,14 @@ func main() {
 	}
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	//WHAT ARE WE GOING TO PUT IN THE SESSION
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.RoomRestriction{})
+	gob.Register(models.Restriction{})
+	gob.Register(models.Price{})
 
 	app.InProduction = false
 
@@ -55,22 +62,29 @@ func run() error {
 
 	app.Session = session
 
+	//CONNECT TO DATABASE
+	log.Println("connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings-go user=chrismo password=fcportu")
+	if err != nil {
+		log.Fatal("cannot connect to database!... leaving...")
+	}
+	log.Println("successful connection to database")
 	//WE WILL RENDER ONCE ALL TEMPLATES
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Println("cannot create template cache")
-		return err
+		return nil, err
 	}
 	app.TemplateCache = tc
 	app.UseCache = false
 	//WE WILL GIVE RENDER PKG ACCESS TO THE MEMORY ADDRESS OF APPCONFIG
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
 	//CREATES REPOSITORY VARIABLE
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	//AFTER CREATING REPOSITORY, WE NEED TO PASS IT BACK TO HANDLER PKG
 	handlers.NewHandlers(repo)
 
-	return nil
+	return db, nil
 }

@@ -66,8 +66,11 @@ CREATE TABLE public.reservations (
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     start_date date NOT NULL,
     end_date date NOT NULL,
-    user_id integer NOT NULL,
-    rooms_id integer NOT NULL
+    first_name character varying(30) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    email character varying(50) NOT NULL,
+    phone character varying(20),
+    room_id integer NOT NULL
 );
 
 
@@ -132,6 +135,24 @@ ALTER SEQUENCE public.restrictions_id_seq OWNED BY public.restrictions.id;
 
 
 --
+-- Name: room_restrictions; Type: TABLE; Schema: public; Owner: chrismo
+--
+
+CREATE TABLE public.room_restrictions (
+    id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    start_date date NOT NULL,
+    end_date date NOT NULL,
+    room_id integer NOT NULL,
+    reservation_id integer,
+    restriction_id integer NOT NULL
+);
+
+
+ALTER TABLE public.room_restrictions OWNER TO chrismo;
+
+--
 -- Name: rooms; Type: TABLE; Schema: public; Owner: chrismo
 --
 
@@ -168,24 +189,6 @@ ALTER SEQUENCE public.rooms_id_seq OWNED BY public.rooms.id;
 
 
 --
--- Name: rooms_restrictions; Type: TABLE; Schema: public; Owner: chrismo
---
-
-CREATE TABLE public.rooms_restrictions (
-    id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    start_date date NOT NULL,
-    end_date date NOT NULL,
-    room_id integer NOT NULL,
-    reservations_id integer NOT NULL,
-    restrictions_id integer NOT NULL
-);
-
-
-ALTER TABLE public.rooms_restrictions OWNER TO chrismo;
-
---
 -- Name: rooms_restrictions_id_seq; Type: SEQUENCE; Schema: public; Owner: chrismo
 --
 
@@ -204,7 +207,7 @@ ALTER TABLE public.rooms_restrictions_id_seq OWNER TO chrismo;
 -- Name: rooms_restrictions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: chrismo
 --
 
-ALTER SEQUENCE public.rooms_restrictions_id_seq OWNED BY public.rooms_restrictions.id;
+ALTER SEQUENCE public.rooms_restrictions_id_seq OWNED BY public.room_restrictions.id;
 
 
 --
@@ -281,17 +284,17 @@ ALTER TABLE ONLY public.restrictions ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: room_restrictions id; Type: DEFAULT; Schema: public; Owner: chrismo
+--
+
+ALTER TABLE ONLY public.room_restrictions ALTER COLUMN id SET DEFAULT nextval('public.rooms_restrictions_id_seq'::regclass);
+
+
+--
 -- Name: rooms id; Type: DEFAULT; Schema: public; Owner: chrismo
 --
 
 ALTER TABLE ONLY public.rooms ALTER COLUMN id SET DEFAULT nextval('public.rooms_id_seq'::regclass);
-
-
---
--- Name: rooms_restrictions id; Type: DEFAULT; Schema: public; Owner: chrismo
---
-
-ALTER TABLE ONLY public.rooms_restrictions ALTER COLUMN id SET DEFAULT nextval('public.rooms_restrictions_id_seq'::regclass);
 
 
 --
@@ -334,10 +337,10 @@ ALTER TABLE ONLY public.rooms
 
 
 --
--- Name: rooms_restrictions rooms_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: chrismo
+-- Name: room_restrictions rooms_restrictions_pkey; Type: CONSTRAINT; Schema: public; Owner: chrismo
 --
 
-ALTER TABLE ONLY public.rooms_restrictions
+ALTER TABLE ONLY public.room_restrictions
     ADD CONSTRAINT rooms_restrictions_pkey PRIMARY KEY (id);
 
 
@@ -358,17 +361,10 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: rooms_restrictions_reservations_id_idx; Type: INDEX; Schema: public; Owner: chrismo
---
-
-CREATE INDEX rooms_restrictions_reservations_id_idx ON public.rooms_restrictions USING btree (reservations_id);
-
-
---
 -- Name: rooms_restrictions_room_id_idx; Type: INDEX; Schema: public; Owner: chrismo
 --
 
-CREATE INDEX rooms_restrictions_room_id_idx ON public.rooms_restrictions USING btree (room_id);
+CREATE INDEX rooms_restrictions_room_id_idx ON public.room_restrictions USING btree (room_id);
 
 
 --
@@ -387,42 +383,34 @@ ALTER TABLE ONLY public.prices
 
 
 --
--- Name: reservations reservations_rooms_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
+-- Name: reservations reservations_room_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
 --
 
 ALTER TABLE ONLY public.reservations
-    ADD CONSTRAINT reservations_rooms_id_fkey FOREIGN KEY (rooms_id) REFERENCES public.restrictions(id) ON DELETE CASCADE;
+    ADD CONSTRAINT reservations_room_id_fkey FOREIGN KEY (room_id) REFERENCES public.rooms(id);
 
 
 --
--- Name: reservations reservations_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
+-- Name: room_restrictions rooms_restrictions_reservation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
 --
 
-ALTER TABLE ONLY public.reservations
-    ADD CONSTRAINT reservations_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
-
-
---
--- Name: rooms_restrictions rooms_restrictions_reservations_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
---
-
-ALTER TABLE ONLY public.rooms_restrictions
-    ADD CONSTRAINT rooms_restrictions_reservations_id_fkey FOREIGN KEY (reservations_id) REFERENCES public.reservations(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.room_restrictions
+    ADD CONSTRAINT rooms_restrictions_reservation_id_fkey FOREIGN KEY (reservation_id) REFERENCES public.reservations(id);
 
 
 --
--- Name: rooms_restrictions rooms_restrictions_restrictions_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
+-- Name: room_restrictions rooms_restrictions_restriction_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
 --
 
-ALTER TABLE ONLY public.rooms_restrictions
-    ADD CONSTRAINT rooms_restrictions_restrictions_id_fkey FOREIGN KEY (restrictions_id) REFERENCES public.restrictions(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.room_restrictions
+    ADD CONSTRAINT rooms_restrictions_restriction_id_fkey FOREIGN KEY (restriction_id) REFERENCES public.restrictions(id);
 
 
 --
--- Name: rooms_restrictions rooms_restrictions_room_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
+-- Name: room_restrictions rooms_restrictions_room_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
 --
 
-ALTER TABLE ONLY public.rooms_restrictions
+ALTER TABLE ONLY public.room_restrictions
     ADD CONSTRAINT rooms_restrictions_room_id_fkey FOREIGN KEY (room_id) REFERENCES public.rooms(id);
 
 

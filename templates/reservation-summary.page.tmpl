@@ -7,15 +7,20 @@
     <tbody>
       <tr>
         <th>Name</th>
-        <td>{{ $res.LastName }},{{ $res.FirstName }}</td>
+        <td>{{ $res.LastName }}, {{ $res.FirstName }}</td>
+      </tr>
+    
+      <tr>
+        <th>Room</th>
+        <td>{{ $res.Room.RoomName }}</td>
       </tr>
       <tr>
         <th>Arival</th>
-        <td>{{ $res.FirstName }}</td>
+        <td>{{ index .StringMap "start_date" }}</td>
       </tr>
       <tr>
         <th>Departure</th>
-        <td>{{ $res.FirstName }}</td>
+        <td>{{ index .StringMap "end_date" }}</td>
       </tr>
       <tr>
         <th>Email</th>

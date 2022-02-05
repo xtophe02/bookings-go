@@ -1,0 +1,1 @@
+INSERT INTO rooms (room_name) VALUES (E'General\'s Quarters'), (E'Major\'s Suite');

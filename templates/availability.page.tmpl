@@ -18,7 +18,7 @@
         type="text"
         required
         class="form-control"
-        name="start"
+        name="start_date"
         placeholder="Arrival"
       />
     </div>
@@ -28,7 +28,7 @@
         type="text"
         required
         class="form-control"
-        name="end"
+        name="end_date"
         placeholder="Departure"
       />
     </div>
@@ -51,6 +51,7 @@
   const reservationsDates = document.getElementById('reservations-dates');
   const rangepicker = new DateRangePicker(reservationsDates, {
     format: 'yyyy-mm-dd',
+    minDate: new Date()
   });
 </script>
 {{ end }}
