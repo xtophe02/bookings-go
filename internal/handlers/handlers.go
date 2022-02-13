@@ -170,6 +170,7 @@ func (m *Repository) PostReservation(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 	reservation, ok := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+
 	if !ok {
 		// helpers.ServerError(rw, errors.New("counld get session reservation"))
 		m.App.Session.Put(r.Context(), "error", "can't get session reservation")
@@ -214,14 +215,23 @@ func (m *Repository) PostReservation(rw http.ResponseWriter, r *http.Request) {
 	form.IsEmail("email")
 
 	if !form.Valid() {
+		reservation, _ := m.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+		sd := reservation.StartDate.Format("2006-01-02")
+		ed := reservation.EndDate.Format("2006-01-02")
 
+		stringMap := make(map[string]string)
+		stringMap["start_date"] = sd
+		stringMap["end_date"] = ed
 		data := make(map[string]interface{})
 		data["reservation"] = reservation
-		http.Error(rw, "Form not valid", http.StatusSeeOther)
+
+		// http.Error(rw, "form not valid", http.StatusSeeOther)
 		render.Template(rw, r, "reservation.page.tmpl", &models.TemplateData{
-			Form: form,
-			Data: data,
+			Form:      form,
+			Data:      data,
+			StringMap: stringMap,
 		})
+
 		return
 	}
 	reservation.FirstName = r.Form.Get("first_name")
@@ -474,7 +484,7 @@ func (m *Repository) PostLogin(rw http.ResponseWriter, r *http.Request) {
 			Email:    "",
 			Password: "",
 		}
-		// http.Error(rw, "Form not valid", http.StatusSeeOther)
+
 		render.Template(rw, r, "login.page.tmpl", &models.TemplateData{
 			Form: form,
 			Data: data,
@@ -491,10 +501,12 @@ func (m *Repository) PostLogin(rw http.ResponseWriter, r *http.Request) {
 			Password: r.Form.Get("password"),
 		}
 		m.App.Session.Put(r.Context(), "error", "Invalid Login Credentials")
+		// http.Error(rw, "form not valid", http.StatusSeeOther)
 		render.Template(rw, r, "login.page.tmpl", &models.TemplateData{
 			Form: form,
 			Data: data,
 		})
+
 		return
 	}
 	m.App.Session.Put(r.Context(), "user_id", id)

@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -56,11 +57,29 @@ func run() (*driver.DB, error) {
 	gob.Register(models.Price{})
 	gob.Register(map[string]int{})
 
+	//read flags
+	inProduction := flag.Bool("production", true, "App is in production")
+	useCache := flag.Bool("cache", true, "use template cache")
+	dbName := flag.String("dbname", "", "Database Name")
+	dbHost := flag.String("dbhost", "localhost", "Database Host")
+	dbUser := flag.String("dbuser", "", "Database User")
+	dbPass := flag.String("dbpass", "", "Database Password")
+	dbPort := flag.String("dbport", "5432", "Database Port")
+	dbSSL := flag.String("dbssl", "disable", "Database ssl settings (disable,prefer,require)")
+
+	flag.Parse()
+
+	if *dbName == "" || *dbUser == "" || *dbPass == "" {
+		fmt.Println("Missing required flags")
+		os.Exit(1)
+	}
+
 	mailChan := make(chan models.MailData)
 	//CANNOT CLOSE IT HERE BECAUSE RUN RUNS ONCE
 	app.MailChan = mailChan
 
-	app.InProduction = false
+	app.InProduction = *inProduction
+	app.UseCache = *useCache
 
 	app.InfoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	app.ErrorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
@@ -75,7 +94,8 @@ func run() (*driver.DB, error) {
 
 	//CONNECT TO DATABASE
 	log.Println("connecting to database...")
-	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=bookings-go user=chrismo password=fcportu")
+	connectString := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s", *dbHost, *dbPort, *dbName, *dbUser, *dbPass, *dbSSL)
+	db, err := driver.ConnectSQL(connectString)
 	if err != nil {
 		log.Fatal("cannot connect to database!... leaving...")
 	}
@@ -87,7 +107,6 @@ func run() (*driver.DB, error) {
 		return nil, err
 	}
 	app.TemplateCache = tc
-	app.UseCache = false
 	//WE WILL GIVE RENDER PKG ACCESS TO THE MEMORY ADDRESS OF APPCONFIG
 	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)

@@ -48,11 +48,11 @@ func (m *testDBRepo) UpdateUserByID(user models.User) error {
 	return nil
 }
 func (m *testDBRepo) Authenticate(email, password string) (int, string, error) {
+	if email == "me@here.ca" {
+		return 1, "", nil
+	}
+	return 0, "", errors.New("some error")
 
-	var id int
-	var hashedPassword string
-
-	return id, hashedPassword, nil
 }
 func (m *testDBRepo) AllReservations() ([]models.Reservation, error) {
 
@@ -98,11 +98,9 @@ func (m *testDBRepo) GetRestrictionsForRoomByDate(roomID int, start, end time.Ti
 }
 func (m *testDBRepo) InsertBlockForRoom(roomID int, date time.Time) error {
 
-
-	return  nil
+	return nil
 }
 func (m *testDBRepo) DeleteBlockByID(roomRestrictionID int) error {
 
-
-	return  nil
+	return nil
 }

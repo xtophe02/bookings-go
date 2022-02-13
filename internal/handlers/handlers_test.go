@@ -39,6 +39,13 @@ var theTests = []struct {
 		http.StatusOK},
 	{"contact", "/contact", "GET", //[]postData{},
 		http.StatusOK},
+	{"non-existent", "/green/eggs", "GET", http.StatusNotFound},
+	{"login", "/user/login", "GET", http.StatusOK},
+	{"logout", "/user/logout", "GET", http.StatusOK},
+	{"dashboard", "/admin/dashboard", "GET", http.StatusOK},
+	{"new reservations", "/admin/reservations-new", "GET", http.StatusOK},
+	{"show reservations", "/admin/reservations/new/1/show", "GET", http.StatusOK},
+
 	// {"make-res", "/reservation", "GET", []postData{}, http.StatusOK},
 	// {"reservation-summary", "/reservation-summary", "GET", []postData{}, http.StatusOK},
 	// {"post-avalability", "/availability", "POST",[]postData{
@@ -144,9 +151,9 @@ func TestRepository_AvailabilityJSON(t *testing.T) {
 	// reqBody = fmt.Sprintf("%s&%s", reqBody, "room_id=1")
 
 	postedDate := url.Values{}
-	postedDate.Add("start_date","2050-01-01")
-	postedDate.Add("end_date","2050-01-02")
-	postedDate.Add("room_id","1")
+	postedDate.Add("start_date", "2050-01-01")
+	postedDate.Add("end_date", "2050-01-02")
+	postedDate.Add("room_id", "1")
 
 	//TEST PARSEFORM
 	req, _ := http.NewRequest("POST", "/availability-json", strings.NewReader(postedDate.Encode()))
@@ -319,6 +326,51 @@ func TestRepository_ChooseRoom(t *testing.T) {
 	// 	t.Errorf("ChooseRoom handler returned wrong response code: got %d, wanted %d", rr.Code, http.StatusTemporaryRedirect)
 	// }
 
+}
+
+var loginTests = []struct {
+	name               string
+	email              string
+	expectedStatusCode int
+	expectedHTML       string
+	expectedLocation   string
+}{
+	{"valid-credentials", "me@here.ca", http.StatusSeeOther, "", "/"},
+	{"invalid-credentials", "jack@nimble.com", http.StatusOK, `action="/user/login`, ""},
+	{"invalid-DATA", "j", http.StatusOK, `action="/user/login"`, ""},
+}
+
+func TestLogin(t *testing.T) {
+	for _, e := range loginTests {
+		postedData := url.Values{}
+		postedData.Add("email", e.email)
+		postedData.Add("password", "password")
+
+		req, _ := http.NewRequest("POST", "/user/login", strings.NewReader(postedData.Encode()))
+		req = req.WithContext(getCtx(req))
+
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		rr := httptest.NewRecorder()
+		handler := http.HandlerFunc(Repo.PostLogin)
+		handler.ServeHTTP(rr, req)
+
+		if rr.Code != e.expectedStatusCode {
+			t.Errorf("failed %s: expected code %d got %d", e.name, e.expectedStatusCode, rr.Code)
+		}
+		if e.expectedLocation != "" {
+			actualLocation, _ := rr.Result().Location()
+			if actualLocation.String() != e.expectedLocation {
+				t.Errorf("failed %s: expected location %s got %s", e.name, e.expectedLocation, actualLocation.String())
+			}
+		}
+
+		if e.expectedHTML != "" {
+			html := rr.Body.String()
+			if !strings.Contains(html, e.expectedHTML) {
+				t.Errorf("failed %s: expected to find %s ", e.name, e.expectedHTML)
+			}
+		}
+	}
 }
 
 func getCtx(req *http.Request) context.Context {

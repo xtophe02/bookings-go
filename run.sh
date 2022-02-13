@@ -1,1 +1,1 @@
-go build -o bookings-go cmd/web/*go && ./bookings-go
+go build -o bookings-go cmd/web/*go && ./bookings-go --dbname=bookings-go -dbuser=chrismo -cache=false -production=false -dbpass=fcportu
