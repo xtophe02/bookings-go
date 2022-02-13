@@ -1,0 +1,117 @@
+{{template "admin" .}}
+
+{{define "page-title"}}
+    Show Reservation
+{{end}}
+
+{{define "content"}}
+{{$res := index .Data "reservation"}}
+{{$src := index .StringMap "src"}}
+    <div class="col-md-12">
+      
+      <p>
+        <strong>Arrival:</strong> {{humanDate $res.StartDate}}<br>
+        <strong>Departure:</strong> {{humanDate $res.EndDate}}<br>
+        <strong>Room:</strong> {{$res.Room.RoomName}}<br>
+      </p>
+
+      <form novalidate class="needs-validation" action="/admin/reservations/{{$src}}/{{$res.ID}}" method="POST">
+        <div class="mb-3">
+          <label class="form-label">First Name</label>
+    
+          <input type="text" class="form-control
+          {{with .Form.Errors.Get "first_name"}} is-invalid {{ end }}" required
+          name="first_name" aria-describedby="firstName" value="{{
+            $res.FirstName
+          }}"/>
+          {{with .Form.Errors.Get "first_name"}}
+          <div class="invalid-feedback">
+            {{.}}
+          </div>
+          {{ end }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Last Name</label>
+          <input type="text" required class="form-control
+          {{with .Form.Errors.Get "last_name"}} is-invalid {{ end }}"
+          name="last_name" aria-describedby="lastName" value="{{ $res.LastName }}"
+          />
+          {{with .Form.Errors.Get "last_name"}}
+          <div class="invalid-feedback">
+            {{.}}
+          </div>
+          {{ end }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" required class="form-control
+          {{with .Form.Errors.Get "email"}} is-invalid {{ end }}" name="email"
+          aria-describedby="email" value="{{ $res.Email }}" />
+          {{with .Form.Errors.Get "email"}}
+          <div class="invalid-feedback">
+            {{.}}
+          </div>
+          {{ end }}
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Phone Number</label>
+          <input type="text" required class="form-control
+          {{with .Form.Errors.Get "phone"}} is-invalid {{ end }}" name="phone"
+          aria-describedby="phoneNumber" value="{{ $res.Phone }}" />
+          {{with .Form.Errors.Get "phone"}}
+          <div class="invalid-feedback">
+            {{.}}
+          </div>
+          {{ end }}
+        </div>
+    
+    
+        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}" />
+        <input type="hidden" name="year" value="{{index .StringMap "year"}}" />
+        <input type="hidden" name="month" value="{{index .StringMap "month"}}" />
+
+        <div class="d-flex justify-content-between">
+          <div class="d-grid gap-2 d-md-block">
+            <button type="submit" class="btn btn-primary">Save</button>
+            {{if eq $src "cal"}}
+              <a href="#!" onclick="window.history.go(-1)" class="btn btn-warning">Go Back</a>
+            {{else}}
+              <a type="submit" class="btn btn-warning" href="/admin/reservations-{{$src}}">Cancel</a>
+            {{end}}
+            {{if eq $res.Processed 0}}
+            <a href="#!" class="btn btn-info" onclick="processRes({{$res.ID}})">Mark as Processed</a>
+          {{end}}
+          </div>
+            <a href="#!" class="btn btn-danger" onclick="deleteRes({{$res.ID}})">Delete</a>
+        </div>
+      
+
+     
+
+      </form>
+    </div>
+    
+{{end}}
+
+{{define "js"}}
+<script>
+  
+  {{$src := index .StringMap "src"}}
+  function processRes(id){
+
+    atention.custom({
+      title:"Are you sure?", icon:"warning" ,cb:(res)=>{if(res){
+        window.location.href = `/admin/process-reservation/{{$src}}/${id}/do?y={{index .StringMap "year"}}&m={{index .StringMap "month"}}`
+      }}
+    })
+  }
+  function deleteRes(id){
+
+    atention.custom({
+      title:"Are you sure?", icon:"warning" ,cb:(res)=>{if(res){
+        window.location.href = `/admin/delete-reservation/{{$src}}/${id}/do?y={{index .StringMap "year"}}&m={{index .StringMap "month"}}`
+      }}
+    })
+  }
+</script>
+{{end}}

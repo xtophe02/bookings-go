@@ -49,12 +49,31 @@ const Prompt = () => {
           showOnFocus: true,
            });
       },
-      preConfirm: () => {
-        return [
-          document.getElementById('start').value,
-          document.getElementById('end').value,
-        ];
-      },
+      // preConfirm: () => {
+      //   return [
+      //     document.getElementById('start').value,
+      //     document.getElementById('end').value,
+      //   ];
+      // },
+    });
+    if (result) {
+      if (result.dismiss !== Swal.DismissReason.cancel && result.value !== '') {
+        cb(result);
+        
+      }
+      // Swal.fire(JSON.stringify(formValues));
+    }
+  };
+  const custom = async ({ title, icon,html, cb }) => {
+    const { value: result } = await Swal.fire({
+      title,
+      html,
+      icon,
+      backdrop: false,
+      focusConfirm: false,
+      showCancelButton: true,
+      
+
     });
     if (result) {
       if (result.dismiss !== Swal.DismissReason.cancel && result.value !== '') {
@@ -65,9 +84,9 @@ const Prompt = () => {
     }
   };
   const notify = (text, type) => {
-    notie.alert({ type, text });
+    notie.alert( {type, text} );
   };
-  return { toast, modal, form, notify };
+  return { toast, modal, form, notify, custom };
 };
 
 const reservationDates =(roomID,csrf) =>{

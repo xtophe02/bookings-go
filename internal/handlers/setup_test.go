@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"testing"
 	"text/template"
 	"time"
 
@@ -26,7 +27,7 @@ var pathToTemplates = "./../../templates"
 
 var functions = template.FuncMap{}
 
-func getRoutes() http.Handler {
+func TestMain(m *testing.M){
 	gob.Register(models.Reservation{})
 
 	app.InProduction = false
@@ -45,6 +46,12 @@ func getRoutes() http.Handler {
 	//WE WILL RENDER ONCE ALL TEMPLATES
 	tc, err := CreateTestTemplateCache()
 
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
+	defer close(mailChan)
+
+	listenForMail()
+
 	if err != nil {
 		log.Println("cannot create template cache")
 
@@ -53,12 +60,26 @@ func getRoutes() http.Handler {
 	app.InProduction = true
 
 	//CREATES REPOSITORY VARIABLE
-	repo := NewRepo(&app)
+	repo := NewTestingRepo(&app)
 	//AFTER CREATING REPOSITORY, WE NEED TO PASS IT BACK TO HANDLER PKG
 	NewHandlers(repo)
 	//WE WILL GIVE RENDER PKG ACCESS TO THE MEMORY ADDRESS OF APPCONFIG
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 
+	os.Exit(m.Run())
+
+}
+
+func listenForMail(){
+	go func(){
+		for {
+			_ = <- app.MailChan
+		}
+	}()
+}
+
+func getRoutes() http.Handler {
+	
 	mux := chi.NewRouter()
 	// mux.Use(NoSurf)
 	mux.Use(SessionLoad)

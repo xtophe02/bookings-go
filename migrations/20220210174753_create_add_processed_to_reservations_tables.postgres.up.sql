@@ -1,0 +1,1 @@
+ALTER TABLE reservations ADD COLUMN processed INTEGER DEFAULT 0;

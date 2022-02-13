@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.1 (Ubuntu 14.1-1.pgdg21.10+1)
--- Dumped by pg_dump version 14.1 (Ubuntu 14.1-1.pgdg21.10+1)
+-- Dumped from database version 14.2 (Ubuntu 14.2-1.pgdg21.10+1)
+-- Dumped by pg_dump version 14.2 (Ubuntu 14.2-1.pgdg21.10+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -70,7 +70,8 @@ CREATE TABLE public.reservations (
     last_name character varying(30) NOT NULL,
     email character varying(50) NOT NULL,
     phone character varying(20),
-    room_id integer NOT NULL
+    room_id integer NOT NULL,
+    processed integer DEFAULT 0
 );
 
 
@@ -391,11 +392,11 @@ ALTER TABLE ONLY public.reservations
 
 
 --
--- Name: room_restrictions rooms_restrictions_reservation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
+-- Name: room_restrictions room_restrictions_reservation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: chrismo
 --
 
 ALTER TABLE ONLY public.room_restrictions
-    ADD CONSTRAINT rooms_restrictions_reservation_id_fkey FOREIGN KEY (reservation_id) REFERENCES public.reservations(id);
+    ADD CONSTRAINT room_restrictions_reservation_id_fkey FOREIGN KEY (reservation_id) REFERENCES public.reservations(id) ON DELETE CASCADE;
 
 
 --

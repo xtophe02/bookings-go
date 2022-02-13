@@ -1,0 +1,1 @@
+DELETE FROM users WHERE email='eng.christophe.moreira@gmail.com';

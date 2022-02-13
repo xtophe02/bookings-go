@@ -33,7 +33,7 @@ func TestRenderTemplate(t *testing.T) {
 	r, _ := http.NewRequest("GET", "/some-url", nil)
 
 	var ww myWriter
-	err = RenderTemplate(&ww, r, "non-existing.page.tmpl", &models.TemplateData{})
+	err = Template(&ww, r, "non-existing.page.tmpl", &models.TemplateData{})
 	if err == nil {
 		t.Error("render template that does not exist")
 	}
@@ -52,7 +52,7 @@ func getSession() (*http.Request, error) {
 }
 
 func TestNewTemplates(t *testing.T) {
-	NewTemplates(app)
+	NewRenderer(app)
 }
 func TestCreateTemplateCache(t *testing.T) {
 	pathToTemplates = "./../../templates"

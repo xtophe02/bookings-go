@@ -28,6 +28,12 @@ func main() {
 		log.Fatal(err)
 	}
 	defer db.SQL.Close()
+
+	defer close(app.MailChan)
+
+	fmt.Println("start email listener...")
+	listenForMail()
+
 	fmt.Println("Starting app on port", portNumber)
 	// http.ListenAndServe(portNumber,nil)
 	srv := &http.Server{
@@ -48,6 +54,11 @@ func run() (*driver.DB, error) {
 	gob.Register(models.RoomRestriction{})
 	gob.Register(models.Restriction{})
 	gob.Register(models.Price{})
+	gob.Register(map[string]int{})
+
+	mailChan := make(chan models.MailData)
+	//CANNOT CLOSE IT HERE BECAUSE RUN RUNS ONCE
+	app.MailChan = mailChan
 
 	app.InProduction = false
 

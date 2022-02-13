@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/justinas/nosurf"
+	"github.com/xtophe02/bookings-go/internal/helpers"
 )
 
 // func WriteToConsole(next http.Handler) http.Handler {
@@ -28,3 +29,14 @@ func SessionLoad(next http.Handler) http.Handler {
 	return session.LoadAndSave(next)
 }
 
+//protect routes
+func Auth(next http.Handler) http.Handler{
+	return http.HandlerFunc(func (rw http.ResponseWriter, r *http.Request){
+		if ! helpers.IsAuthenticated(r){
+			session.Put(r.Context(), "error", "You need to be logged in!")
+			http.Redirect(rw,r,"/user/login",http.StatusSeeOther)
+			return
+		}
+		next.ServeHTTP(rw,r)
+	})
+}
